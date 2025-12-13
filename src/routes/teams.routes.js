@@ -1,8 +1,8 @@
 import express from "express";
+import { getTeamsSA } from "../controllers/teams.controller.js";
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({ message: "Teams route placeholder" });
-});
+router.get("/", getTeamsSA);
 
 export default router;

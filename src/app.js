@@ -4,7 +4,11 @@ dotenv.config();
 
 import liveRoute from "./routes/liveMatches.routes.js";
 import teamsRoute from "./routes/teams.routes.js";
-import competitionsRoute from "./routes/competitions.routes.js";
+import competitionsRoutes from "./routes/competitions.routes.js";
+import socialRoutes from "./routes/social.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
+
+import lineupsRoute from "./routes/lineups.routes.js";
 
 // start cron jobs
 import "./cron/liveMatches.cron.js";
@@ -16,6 +20,13 @@ app.use(express.json());
 
 app.use("/api/live", liveRoute);
 app.use("/api/teams", teamsRoute);
-app.use("/api/competitions", competitionsRoute);
+app.use("/api/competitions", competitionsRoutes);
+app.use("/api/lineups", lineupsRoute);
+app.use("/api", socialRoutes);
+app.use("/api", uploadRoutes);
+
+// Serve static files from public directory
+app.use(express.static('public'));
+
 
 export default app;
