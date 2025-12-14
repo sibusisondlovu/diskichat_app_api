@@ -1,0 +1,1 @@
+ALTER TABLE teams ADD COLUMN code VARCHAR(10) AFTER name;

@@ -10,7 +10,6 @@ export const getTeamsSA = async (req, res) => {
 
         const query = `
             SELECT * FROM teams 
-            WHERE country = 'South Africa'
             ORDER BY name ASC
         `;
 

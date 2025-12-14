@@ -1,8 +1,8 @@
 import cron from "node-cron";
 import { fetchLiveMatches } from "../services/liveMatches.service.js";
 
-// Schedule: Every minute
-cron.schedule("* * * * *", async () => {
+// Schedule: Daily at midnight
+cron.schedule("0 0 * * *", async () => {
     console.log("⏰ CRON: Running daily live match update...");
     try {
         const matches = await fetchLiveMatches();
