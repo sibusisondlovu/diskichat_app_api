@@ -36,6 +36,9 @@ export const fetchTeams = async () => {
 
                 if (!teamsData || teamsData.length === 0) {
                     console.log(`No teams found for League ${leagueId} Season ${TARGET_SEASON}`);
+                    if (response.data && response.data.errors) {
+                        console.log('API Errors:', JSON.stringify(response.data.errors, null, 2));
+                    }
                     continue;
                 }
 

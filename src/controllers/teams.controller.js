@@ -6,14 +6,20 @@ import pool from "../config/db.js";
  */
 export const getTeamsSA = async (req, res) => {
     try {
+        const { country } = req.query; // Capture country param
         const connection = await pool.getConnection();
 
-        const query = `
-            SELECT * FROM teams 
-            ORDER BY name ASC
-        `;
+        let query = `SELECT * FROM teams WHERE 1=1`;
+        const params = [];
 
-        const [rows] = await connection.query(query);
+        if (country) {
+            query += ` AND country = ?`;
+            params.push(country);
+        }
+
+        query += ` ORDER BY name ASC`;
+
+        const [rows] = await connection.query(query, params);
         connection.release();
 
         res.json({
