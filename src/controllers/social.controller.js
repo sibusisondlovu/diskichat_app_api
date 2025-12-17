@@ -86,27 +86,51 @@ export const likePost = async (req, res) => {
     }
 };
 
+
 /**
- * POST /api/posts/:id/comment
- * Add comment
+ * GET /api/posts/:id/comments
+ * Get comments for a post
  */
+export const getComments = async (req, res) => {
+    const postId = req.params.id;
+
+    try {
+        const connection = await pool.getConnection();
+        const [rows] = await connection.query(`
+            SELECT * FROM comments 
+            WHERE post_id = ? 
+            ORDER BY created_at ASC
+        `, [postId]);
+        connection.release();
+
+        res.json(rows);
+    } catch (err) {
+        console.error("Error fetching comments:", err);
+        res.status(500).json({ error: "Failed to fetch comments" });
+    }
+};
+
 export const addComment = async (req, res) => {
     const postId = req.params.id;
     const { userId, username, userAvatar, content } = req.body;
 
     try {
         const connection = await pool.getConnection();
-        await connection.query(`
+        const [result] = await connection.query(`
             INSERT INTO comments (post_id, user_id, username, user_avatar, content)
             VALUES (?, ?, ?, ?, ?)
         `, [postId, userId, username, userAvatar, content]);
 
+        // Fetch the created comment to return it
+        const [newComment] = await connection.query('SELECT * FROM comments WHERE id = ?', [result.insertId]);
+
         await connection.query('UPDATE posts SET comments_count = comments_count + 1 WHERE id = ?', [postId]);
 
         connection.release();
-        res.json({ success: true });
+        res.json(newComment[0]); // Return the full comment object
     } catch (err) {
         console.error("Error adding comment:", err);
         res.status(500).json({ error: "Failed to add comment" });
     }
 };
+
