@@ -16,6 +16,7 @@ import lineupsRoute from "./routes/lineups.routes.js";
 // import "./cron/liveMatches.cron.js"; // This might need rename too? Or just keep it.
 import "./cron/teams.cron.js";
 import "./cron/competitions.cron.js";
+import "./cron/matchUpdate.cron.js";
 
 const app = express();
 app.use(express.json());
