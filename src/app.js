@@ -17,6 +17,7 @@ import lineupsRoute from "./routes/lineups.routes.js";
 import "./cron/teams.cron.js";
 import "./cron/competitions.cron.js";
 import "./cron/matchUpdate.cron.js";
+import "./cron/comingMatches.cron.js";
 
 const app = express();
 app.use(express.json());
